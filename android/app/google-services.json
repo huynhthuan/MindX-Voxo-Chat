@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "930278192732",
+    "firebase_url": "https://mindx-voxo-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "mindx-voxo",
+    "storage_bucket": "mindx-voxo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930278192732:android:61ec38b58a34050f7e9899",
+        "android_client_info": {
+          "package_name": "com.voxochat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930278192732-6102nd93rhp0km5vvtujaurgrd4q4a8o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voxochat",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "930278192732-o4945mpha07om8g0lqohb5j881an59dv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7Gd-OIIHBg8mOAPImem7Zg-O3XkZRhYU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930278192732-o4945mpha07om8g0lqohb5j881an59dv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
