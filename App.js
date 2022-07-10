@@ -16,13 +16,13 @@ import ChatBox from './src/screens/Chatbox';
 import Login from './src/screens/Auth/Login';
 
 const me = {
-  id: '1',
-  name: 'huynievoxo',
-  email: 'huynie007@gmail.com',
+  id: 'sale_15',
+  name: 'Du Thung',
+  email: 'sales2@gmail.com',
   photoUrl:
     'https://voxohub.xyz/wp-content/uploads/2022/05/08b0155f456f09ea8360de863e1b1bb2.jpg',
   welcomeMessage: 'Hey there! How are you? :-)',
-  role: 'administrator',
+  role: 'sale',
 };
 
 const Stack = createNativeStackNavigator();
@@ -31,13 +31,13 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Login"
           component={Login}
           options={{
             headerShown: false,
           }}
-        />
+        /> */}
         <Stack.Screen
           name="Conversation"
           component={ConversationList}
