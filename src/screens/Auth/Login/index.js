@@ -1,7 +1,40 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {Controller, useForm} from 'react-hook-form';
 import {View, Text, Button, Incubator} from 'react-native-ui-lib';
+import {useLogin} from '../../../hooks/reactQueryHook';
 const {TextField} = Incubator;
+
 export default function Login() {
+  const loginMutation = useLogin();
+  const {mutate, isSuccess, data, isError, isLoading, error} = loginMutation;
+
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = data => {
+    mutate(data);
+  };
+
+  useEffect(() => {
+    if (!isLoading) {
+      console.log(data);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (!isError) {
+      console.log(error);
+    }
+  }, [isError]);
+
   return (
     <View flex centerH centerV>
       <View style={{width: '100%'}}>
@@ -15,31 +48,64 @@ export default function Login() {
         </Text>
 
         <View paddingH-40>
-          <TextField
-            placeholder={'Enter your email'}
-            floatingPlaceholder={false}
-            onChangeText={() => console.log('changed')}
-            enableErrors
-            validate={['required', 'email', value => value.length > 6]}
-            validationMessage={[
-              'Field is required',
-              'Email is invalid',
-              'Password is too short',
-            ]}
-            showCharCounter={false}
-            label="Email"
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+              pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <TextField
+                marginB-10
+                placeholder={'Enter your email'}
+                floatingPlaceholder={false}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                value={value}
+                showCharCounter={false}
+                label="Email"
+              />
+            )}
+            name="email"
           />
-          <TextField
-            placeholder={'Enter your password'}
-            floatingPlaceholder={false}
-            onChangeText={() => console.log('changed')}
-            enableErrors
-            validate={['required']}
-            validationMessage={['Field is required']}
-            showCharCounter={false}
-            label="Password"
+          {errors.email && errors.email.type === 'required' && (
+            <Text marginB-10 style={{color: 'red'}}>
+              This is required.
+            </Text>
+          )}
+
+          {errors.email && errors.email.type === 'pattern' && (
+            <Text marginB-10 style={{color: 'red'}}>
+              Email format invalid.
+            </Text>
+          )}
+
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({field: {onChange, onBlur, value}}) => (
+              <TextField
+                marginB-10
+                placeholder={'Enter your password'}
+                floatingPlaceholder={false}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                value={value}
+                showCharCounter={false}
+                label="Password"
+                secureTextEntry={true}
+              />
+            )}
+            name="password"
           />
-          <Button label="Login" />
+          {errors.password && (
+            <Text marginB-10 style={{color: 'red'}}>
+              This is required.
+            </Text>
+          )}
+          <Button marginT-20 label="Login" onPress={handleSubmit(onSubmit)} />
         </View>
       </View>
     </View>
