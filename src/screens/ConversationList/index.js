@@ -4,7 +4,6 @@ import {View} from 'react-native-ui-lib';
 
 export default function ConversationList({navigation, route}) {
   const {me} = route.params;
-
   const onSelectConversation = event => {
     navigation.navigate('ChatBox', {
       other: {...event.others[0]},

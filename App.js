@@ -16,16 +16,10 @@ import {QueryClientProvider, QueryClient, QueryCache} from 'react-query';
 import {AppState, Platform} from 'react-native';
 import {focusManager} from 'react-query';
 import Toast from 'react-native-toast-message';
-
-const me = {
-  id: 'sale_15',
-  name: 'Du Thung',
-  email: 'sales2@gmail.com',
-  photoUrl:
-    'https://voxohub.xyz/wp-content/uploads/2022/05/08b0155f456f09ea8360de863e1b1bb2.jpg',
-  welcomeMessage: 'Hey there! How are you? :-)',
-  role: 'sale',
-};
+import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {logOut} from './src/redux/features/authSlice';
+import {Button} from 'react-native-paper';
 
 const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient({
@@ -40,6 +34,9 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
+  const authState = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+
   function onAppStateChange(status) {
     if (Platform.OS !== 'web') {
       focusManager.setFocused(status === 'active');
@@ -55,24 +52,40 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="Conversation"
-            component={ConversationList}
-            initialParams={{me}}
-          />
-          <Stack.Screen
-            name="ChatBox"
-            component={ChatBox}
-            initialParams={{me}}
-          />
+        <Stack.Navigator
+          screenOptions={{
+            headerRight: () => (
+              <Button
+                mode="contained"
+                onPress={() => {
+                  dispatch(logOut());
+                }}>
+                Logout
+              </Button>
+            ),
+          }}>
+          {authState.isLogin ? (
+            <>
+              <Stack.Screen
+                name="Conversation"
+                component={ConversationList}
+                initialParams={{me: authState.user}}
+              />
+              <Stack.Screen
+                name="ChatBox"
+                component={ChatBox}
+                initialParams={{me: authState.user}}
+              />
+            </>
+          ) : (
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{
+                headerShown: false,
+              }}
+            />
+          )}
         </Stack.Navigator>
       </NavigationContainer>
       <Toast />
